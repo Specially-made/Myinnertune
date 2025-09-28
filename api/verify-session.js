@@ -20,6 +20,7 @@ export default async (req, res) => {
 
     const stripeInstance = stripe(process.env.STRIPE_SECRET_KEY);
     const session = await stripeInstance.checkout.sessions.retrieve(sessionId);
+    console.log('Session Data:', session); // Add logging to debug
 
     if (session.payment_status === 'paid') {
       const { data, error } = await supabase.from('subscriptions').insert({
@@ -29,7 +30,7 @@ export default async (req, res) => {
       });
 
       if (error) {
-        console.error('Supabase Error:', error); // Add logging
+        console.error('Supabase Error:', error); // Log errors
         throw error;
       }
 

@@ -3,9 +3,20 @@ import stripe from 'stripe';
 export default async (req, res) => {
   if (req.method === 'POST') {
     try {
-      // Parse the raw body as JSON
-      const rawBody = await req.text();
-      const { userId, plan } = JSON.parse(rawBody || '{}'); // Default to empty object if undefined
+      // Read and parse the body
+      let body = {};
+      if (req.body) {
+        body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+      } else {
+        const rawBody = await new Promise((resolve, reject) => {
+          let data = '';
+          req.on('data', chunk => data += chunk);
+          req.on('end', () => resolve(data));
+          req.on('error', reject);
+        });
+        body = JSON.parse(rawBody || '{}');
+      }
+      const { userId, plan } = body;
       let priceId = 'price_12345'; // Replace with your test Price ID
       if (plan === 'yearly') priceId = 'price_67890'; // Add yearly Price ID if needed
       const session = await stripe(process.env.STRIPE_SECRET_KEY).checkout.sessions.create({

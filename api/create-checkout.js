@@ -17,8 +17,8 @@ export default async (req, res) => {
         body = JSON.parse(rawBody || '{}');
       }
       const { userId, plan } = body;
-      let priceId = 'price_12345'; // Replace with your test Price ID
-      if (plan === 'yearly') priceId = 'price_67890'; // Add yearly Price ID if needed
+      let priceId = 'price_1SCPV3LlHldEmgmJQ0GPau5p'; // Your monthly test Price ID
+      if (plan === 'yearly') priceId = 'price_1RrIIYL2j6866hU9...'; // Replace with your yearly test Price ID if available
       const session = await stripe(process.env.STRIPE_SECRET_KEY).checkout.sessions.create({
         payment_method_types: ['card'],
         line_items: [{ price: priceId, quantity: 1 }],

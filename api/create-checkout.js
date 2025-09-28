@@ -22,7 +22,7 @@ export default async (req, res) => {
       const session = await stripe(process.env.STRIPE_SECRET_KEY).checkout.sessions.create({
         payment_method_types: ['card'],
         line_items: [{ price: priceId, quantity: 1 }],
-        success_url: 'https://empathetic-position-886030.framer.app/success?session_id={CHECKOUT_SESSION_ID}', // Confirm this
+        success_url: 'https://empathetic-position-886030.framer.app/success?session_id={CHECKOUT_SESSION_ID}', // This is correct
         cancel_url: 'https://empathetic-position-886030.framer.app/',
         mode: 'subscription',
         metadata: { userId },

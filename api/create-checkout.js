@@ -18,11 +18,11 @@ export default async (req, res) => {
       }
       const { userId, plan } = body;
       let priceId = 'price_1SCPV3LlHldEmgmJQ0GPau5p'; // Your monthly test Price ID
-      if (plan === 'yearly') priceId = 'price_1RrIIYL2j6866hU9...'; // Replace with your yearly test Price ID if available
+      if (plan === 'yearly') priceId = 'price_1RrIIYL2j6866hU9...'; // Replace with yearly Price ID if available
       const session = await stripe(process.env.STRIPE_SECRET_KEY).checkout.sessions.create({
         payment_method_types: ['card'],
         line_items: [{ price: priceId, quantity: 1 }],
-        success_url: 'https://empathetic-position-886030.framer.app/?session_id={CHECKOUT_SESSION_ID}',
+        success_url: 'https://empathetic-position-886030.framer.app/success?session_id={CHECKOUT_SESSION_ID}', // Updated URL
         cancel_url: 'https://empathetic-position-886030.framer.app/',
         mode: 'subscription',
         metadata: { userId },

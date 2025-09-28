@@ -3,7 +3,9 @@ import stripe from 'stripe';
 export default async (req, res) => {
   if (req.method === 'POST') {
     try {
-      const { userId, plan } = req.body;
+      // Parse the raw body as JSON
+      const rawBody = await req.text();
+      const { userId, plan } = JSON.parse(rawBody || '{}'); // Default to empty object if undefined
       let priceId = 'price_12345'; // Replace with your test Price ID
       if (plan === 'yearly') priceId = 'price_67890'; // Add yearly Price ID if needed
       const session = await stripe(process.env.STRIPE_SECRET_KEY).checkout.sessions.create({

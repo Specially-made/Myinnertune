@@ -1,10 +1,9 @@
 import stripe from 'stripe';
 import { createClient } from '@supabase/supabase-js';
 
-// Initialize Supabase client with your credentials
 const supabase = createClient(
-  'https://nvfmajquddrlzuqmjaig.supabase.co', // Your Project URL
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52Zm1hanF1ZGRybHp1cW1qYWlnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgxOTA2NTgsImV4cCI6MjA3Mzc2NjY1OH0.0bfaCXQirMVg6BEy4Ib0UG1EQB8yhwBlkzcJmBe2DWA' // Your anon key
+  'https://nvfmajquddrlzuqmjaig.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52Zm1hanF1ZGRybHp1cW1qYWlnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgxOTA2NTgsImV4cCI6MjA3Mzc2NjY1OH0.0bfaCXQirMVg6BEy4Ib0UG1EQB8yhwBlkzcJmBe2DWA'
 );
 
 export default async (req, res) => {
@@ -23,14 +22,16 @@ export default async (req, res) => {
     const session = await stripeInstance.checkout.sessions.retrieve(sessionId);
 
     if (session.payment_status === 'paid') {
-      // Store in Supabase
       const { data, error } = await supabase.from('subscriptions').insert({
-        user_id: session.metadata.userId, // From checkout session metadata
+        user_id: session.metadata.userId,
         session_id: sessionId,
         payment_status: session.payment_status,
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase Error:', error); // Add logging
+        throw error;
+      }
 
       return res.status(200).json({ message: 'Subscription confirmed', session });
     } else {

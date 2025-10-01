@@ -13,7 +13,7 @@ export default async (req, res) => {
   try {
     const session = await stripeInstance.checkout.sessions.create({
       payment_method_types: ['card'],
-      line_items: [{ price: 'price_1SCbZtLlHldEmgmJabc123', quantity: 1 }], // Replace with your price ID
+      line_items: [{ price: 'price_1SCPV3LlHldEmgmJQ0GPau5p', quantity: 1 }], // Replace with your price ID
       mode: 'subscription',
       success_url: 'https://empathetic-position-886030.framer.app/success?session_id={CHECKOUT_SESSION_ID}',
       cancel_url: 'https://empathetic-position-886030.framer.app/',

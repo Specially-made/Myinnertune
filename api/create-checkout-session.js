@@ -7,20 +7,19 @@ export default async (req, res) => {
     return res.status(405).end('Method Not Allowed');
   }
 
-  // For now, use a hardcoded userId (replace with real auth later)
-  const userId = 'test_user_id_123'; // Placeholder
+  const userId = 'test_user_id_123'; // Hardcoded for now
 
   try {
     const session = await stripeInstance.checkout.sessions.create({
       payment_method_types: ['card'],
-      line_items: [{ price: 'price_1SCPV3LlHldEmgmJQ0GPau5p', quantity: 1 }], // Replace with your price ID
+      line_items: [{ price: 'price_1SCPV3LlHldEmgmJQ0GPau5p', quantity: 1 }], // Ensure this is your valid Price ID
       mode: 'subscription',
       success_url: 'https://empathetic-position-886030.framer.app/success?session_id={CHECKOUT_SESSION_ID}',
       cancel_url: 'https://empathetic-position-886030.framer.app/',
-      metadata: { userId }, // Add userId to metadata
+      metadata: { userId },
     });
 
-    res.status(200).json({ id: session.id });
+    res.status(200).json({ id: session.id, url: session.url }); // Add url to response
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

@@ -16,7 +16,7 @@ export default async (req, res) => {
       mode: 'subscription',
       success_url: 'https://empathetic-position-886030.framer.app/success?session_id={CHECKOUT_SESSION_ID}',
       cancel_url: 'https://empathetic-position-886030.framer.app/',
-      metadata: { userId }, // Add this line
+      metadata: { userId }, // Ensure this is included
     });
 
     res.status(200).json({ id: session.id, url: session.url }); // Return url for testing

@@ -6,14 +6,14 @@ export default function Subscription() {
   const sessionId = 'cs_test_a1g6zxIJqBuh0q77zqOLJtQquyk6LmYPuhdndIMFFTBtNO4drqCaopWZuz';
 
   useEffect(() => {
-    fetch(`https://myinnertune-hxmstss82-tobiaswedler-2383s-projects.vercel.app/api/verify-session?session_id=${sessionId}&x-vercel-set-bypass-cookie=true&x-vercel-protection-bypass=12345678901234567890123456789009`)
-      .then(res => res.json())
-      .then(data => {
-        setStatus(data.message || 'Error');
-        setDetails(data.session || {});
-      })
-      .catch(() => setStatus('Error'));
-  }, [sessionId]);
+  fetch(`https://myinnertune-gfqiqbgi2-tobiaswedler-2383s-projects.vercel.app/api/verify-session?session_id=${sessionId}&x-vercel-set-bypass-cookie=true&x-vercel-protection-bypass=12345678901234567890123456789009`)
+    .then(res => res.json())
+    .then(data => {
+      setStatus(data.message || 'Error');
+      setDetails(data.session || {});
+    })
+    .catch(() => setStatus('Error'));
+}, [sessionId]);
 
   return (
     <div>
